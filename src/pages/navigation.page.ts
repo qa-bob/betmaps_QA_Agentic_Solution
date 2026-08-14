@@ -24,10 +24,13 @@ export class NavigationPage extends BasePage {
 
   /**
    * Return the primary navigation locator.
-   * Tries role="navigation" first, then <nav>, then header-scoped links.
+   * Tries semantic nav elements first, then WordPress-specific IDs/classes,
+   * then falls back to the site header itself as the navigation container.
    */
   private getNavLocator(): Locator {
-    return this.page.locator('nav, [role="navigation"]').first();
+    return this.page.locator(
+      'nav, [role="navigation"], #site-navigation, .main-navigation, .primary-navigation, #masthead, .site-header, header'
+    ).first();
   }
 
   /** Return true if a navigation element is visible on the page. */

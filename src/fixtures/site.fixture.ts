@@ -10,10 +10,13 @@
  */
 
 import { test as base, expect } from '@playwright/test';
-import { loadSiteConfig, type SiteConfig } from '@types/site-config.types';
+import { loadSiteConfig, type SiteConfig } from '@config/site-config.types';
 import { HomePage } from '@pages/home.page';
 import { NavigationPage } from '@pages/navigation.page';
 import { ContactFormPage } from '@pages/contact.page';
+import { BlogPage } from '@pages/blog.page';
+import { SearchPage } from '@pages/search.page';
+import { InquiriesPage } from '@pages/inquiries.page';
 
 // ── Fixture type definitions ─────────────────────────────────────────────────
 
@@ -26,6 +29,12 @@ export interface Fixtures {
   navigationPage: NavigationPage;
   /** ContactFormPage page object (does not auto-navigate) */
   contactPage: ContactFormPage;
+  /** BlogPage page object — models the homepage blog listing section */
+  blogPage: BlogPage;
+  /** SearchPage page object — models the WordPress search functionality */
+  searchPage: SearchPage;
+  /** InquiriesPage page object — models the /2024/02/inquiries/ post */
+  inquiriesPage: InquiriesPage;
 }
 
 // ── Extended test object ─────────────────────────────────────────────────────
@@ -66,6 +75,35 @@ export const test = base.extend<Fixtures>({
   contactPage: async ({ page, siteConfig }, use) => {
     const contactPage = new ContactFormPage(page, siteConfig);
     await use(contactPage);
+  },
+
+  /**
+   * blogPage — constructs BlogPage and navigates to the homepage.
+   * Homepage contains the "From Our Blog" / "Latest Updates" sections.
+   */
+  blogPage: async ({ page, siteConfig }, use) => {
+    const blogPage = new BlogPage(page, siteConfig);
+    await blogPage.navigate();
+    await use(blogPage);
+  },
+
+  /**
+   * searchPage — constructs SearchPage and navigates to the homepage.
+   * The search form is available on all pages; homepage is the entry point.
+   */
+  searchPage: async ({ page, siteConfig }, use) => {
+    const searchPage = new SearchPage(page, siteConfig);
+    await searchPage.navigate();
+    await use(searchPage);
+  },
+
+  /**
+   * inquiriesPage — constructs InquiriesPage without navigating.
+   * Tests should call inquiriesPage.navigateToPage() to load the post.
+   */
+  inquiriesPage: async ({ page, siteConfig }, use) => {
+    const inquiriesPage = new InquiriesPage(page, siteConfig);
+    await use(inquiriesPage);
   },
 });
 

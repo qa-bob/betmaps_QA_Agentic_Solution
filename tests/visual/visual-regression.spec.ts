@@ -30,7 +30,7 @@ test.describe('Visual Regression @visual', () => {
 
   test('homepage visual regression - desktop @visual', async ({ page, siteConfig }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
-    await page.goto(siteConfig.url, { waitUntil: 'networkidle' });
+    await page.goto(siteConfig.url, { waitUntil: 'load' });
 
     // Dismiss any cookie/consent banners that would interfere with comparison
     await dismissCookieBanner(page);
@@ -47,7 +47,7 @@ test.describe('Visual Regression @visual', () => {
 
   test('homepage visual regression - mobile @visual', async ({ page, siteConfig }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(siteConfig.url, { waitUntil: 'networkidle' });
+    await page.goto(siteConfig.url, { waitUntil: 'load' });
 
     await dismissCookieBanner(page);
     await page.waitForTimeout(500);
@@ -61,7 +61,7 @@ test.describe('Visual Regression @visual', () => {
 
   test('homepage visual regression - tablet @visual', async ({ page, siteConfig }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
-    await page.goto(siteConfig.url, { waitUntil: 'networkidle' });
+    await page.goto(siteConfig.url, { waitUntil: 'load' });
 
     await dismissCookieBanner(page);
     await page.waitForTimeout(500);

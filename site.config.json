@@ -1,23 +1,21 @@
-﻿{
-    "name":  "BetMaps",
-    "url":  "https://betmaps.com",
-    "description":  "",
-    "industry":  "",
-    "hasContactForm":  true,
-    "expectedNavItems":  [
-
-                         ],
-    "viewports":  [
-                      "desktop",
-                      "mobile",
-                      "tablet"
-                  ],
-    "skipVisual":  false,
-    "skipForms":  false,
-    "auth":  {
-                 "required":  false,
-                 "loginUrl":  "",
-                 "username":  "",
-                 "password":  ""
-             }
+{
+    "name": "BetMaps",
+    "url": "https://betmaps.com",
+    "description": "B2B sports data mapping and intelligence platform for the betting industry",
+    "industry": "Sports Betting / Data Intelligence",
+    "hasContactForm": false,
+    "expectedNavItems": [],
+    "viewports": [
+        "desktop",
+        "mobile",
+        "tablet"
+    ],
+    "skipVisual": false,
+    "skipForms": true,
+    "auth": {
+        "required": false,
+        "loginUrl": "",
+        "username": "",
+        "password": ""
+    }
 }

@@ -15,7 +15,7 @@ test.describe('Responsive Layout @responsive', () => {
   test('no horizontal scrollbar at mobile viewport @responsive', async ({ page, siteConfig }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(siteConfig.url, { waitUntil: 'domcontentloaded' });
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     const hasHorizontalScroll = await page.evaluate<boolean>(() => {
       return document.documentElement.scrollWidth > document.documentElement.clientWidth;
@@ -31,7 +31,7 @@ test.describe('Responsive Layout @responsive', () => {
   test('no horizontal scrollbar at tablet viewport @responsive', async ({ page, siteConfig }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
     await page.goto(siteConfig.url, { waitUntil: 'domcontentloaded' });
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     const hasHorizontalScroll = await page.evaluate<boolean>(() => {
       return document.documentElement.scrollWidth > document.documentElement.clientWidth;
@@ -86,9 +86,12 @@ test.describe('Responsive Layout @responsive', () => {
         .map((img) => img.src || img.getAttribute('data-src') || '[no src]');
     });
 
+    // Always log missing alt attributes — this is an accessibility violation.
+    // Hard-failing is intentional: even on external sites, a11y regressions must be visible.
+    // If the site owners add the missing alt attribute, this test will turn green automatically.
     if (missingAlt.length > 0) {
       console.warn(
-        `[responsive] ${missingAlt.length} image(s) missing alt attribute:\n` +
+        `[responsive] ${missingAlt.length} image(s) missing alt attribute (WCAG 1.1.1):\n` +
           missingAlt.slice(0, 10).map((src) => `  ${src}`).join('\n') +
           (missingAlt.length > 10 ? `\n  ... and ${missingAlt.length - 10} more` : '')
       );
@@ -96,7 +99,8 @@ test.describe('Responsive Layout @responsive', () => {
 
     expect(
       missingAlt.length,
-      `${missingAlt.length} <img> element(s) are missing the alt attribute (accessibility violation)`
+      `${missingAlt.length} <img> element(s) are missing the alt attribute (WCAG 1.1.1 accessibility violation). ` +
+        'Fix: add alt="" (decorative) or descriptive alt text to each image listed above.'
     ).toBe(0);
   });
 
