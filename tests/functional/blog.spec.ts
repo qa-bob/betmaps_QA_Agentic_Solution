@@ -75,10 +75,7 @@ test.describe('Blog Listing @functional', () => {
     }
 
     const dateVisible = await blogPage.firstPostDate.isVisible();
-    if (!dateVisible) {
-      console.warn('[blog] Post date element not visible — may be hidden by theme CSS');
-      return;
-    }
+    test.skip(!dateVisible, 'Post date element not visible');
 
     const dateText = (await blogPage.firstPostDate.textContent())?.trim() ?? '';
     expect(dateText.length, 'Post date should have visible text').toBeGreaterThan(0);
