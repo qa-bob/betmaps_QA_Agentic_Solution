@@ -12,7 +12,8 @@ import { test, expect } from '@fixtures/site.fixture';
 test.describe('Responsive Layout @responsive', () => {
   // ── Horizontal scroll ───────────────────────────────────────────────────────
 
-  test('no horizontal scrollbar at mobile viewport @responsive', async ({ page, siteConfig }) => {
+  test('no horizontal scrollbar at mobile viewport @responsive', async ({ page, siteConfig }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile-chrome', 'Runs only in the "mobile-chrome" project');
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(siteConfig.url, { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('load');
@@ -28,7 +29,8 @@ test.describe('Responsive Layout @responsive', () => {
     ).toBeFalsy();
   });
 
-  test('no horizontal scrollbar at tablet viewport @responsive', async ({ page, siteConfig }) => {
+  test('no horizontal scrollbar at tablet viewport @responsive', async ({ page, siteConfig }, testInfo) => {
+    test.skip(testInfo.project.name !== 'tablet', 'Runs only in the "tablet" project');
     await page.setViewportSize({ width: 768, height: 1024 });
     await page.goto(siteConfig.url, { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('load');
@@ -45,7 +47,8 @@ test.describe('Responsive Layout @responsive', () => {
 
   // ── Text readability ─────────────────────────────────────────────────────────
 
-  test('text is readable (font-size >= 12px) on mobile @responsive', async ({ page, siteConfig }) => {
+  test('text is readable (font-size >= 12px) on mobile @responsive', async ({ page, siteConfig }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile-chrome', 'Runs only in the "mobile-chrome" project');
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(siteConfig.url, { waitUntil: 'domcontentloaded' });
 
@@ -73,7 +76,8 @@ test.describe('Responsive Layout @responsive', () => {
 
   // ── Image alt attributes ─────────────────────────────────────────────────────
 
-  test('images have alt attributes @responsive', async ({ page, siteConfig }) => {
+  test('images have alt attributes @responsive', async ({ page, siteConfig }, testInfo) => {
+    test.skip(testInfo.project.name !== 'chromium-desktop', 'Runs only in the "chromium-desktop" project');
     await page.goto(siteConfig.url, { waitUntil: 'domcontentloaded' });
 
     const missingAlt = await page.evaluate<string[]>(() => {
@@ -106,7 +110,8 @@ test.describe('Responsive Layout @responsive', () => {
 
   // ── Viewport meta tag ────────────────────────────────────────────────────────
 
-  test('page has proper meta viewport tag @responsive', async ({ page, siteConfig }) => {
+  test('page has proper meta viewport tag @responsive', async ({ page, siteConfig }, testInfo) => {
+    test.skip(testInfo.project.name !== 'chromium-desktop', 'Runs only in the "chromium-desktop" project');
     await page.goto(siteConfig.url, { waitUntil: 'domcontentloaded' });
 
     const viewportContent = await page

@@ -59,10 +59,7 @@ test.describe('Inquiries Page @functional', () => {
 
   test('inquiries post shows a publish date @functional', async ({ inquiriesPage }) => {
     const dateVisible = await inquiriesPage.postDate.isVisible();
-    if (!dateVisible) {
-      console.warn('[inquiries] Post date element not visible — may be hidden by theme');
-      return;
-    }
+    test.skip(!dateVisible, 'Post date element not visible');
 
     const dateText = await inquiriesPage.getPostDateText();
     expect(dateText.length, 'Publish date should have visible text').toBeGreaterThan(0);
@@ -87,10 +84,7 @@ test.describe('Inquiries Page @functional', () => {
 
   test('inquiries post has visible post content area @functional', async ({ inquiriesPage }) => {
     const contentCount = await inquiriesPage.postContent.count();
-    if (contentCount === 0) {
-      console.warn('[inquiries] .entry-content not found — post may use different markup');
-      return;
-    }
+    test.skip(contentCount === 0, '.entry-content not found');
     await expect(inquiriesPage.postContent, 'Post content area should be visible').toBeVisible();
   });
 
@@ -118,10 +112,7 @@ test.describe('Inquiries Page @functional', () => {
 
   test('inquiries post has a category assigned @functional', async ({ inquiriesPage }) => {
     const catCount = await inquiriesPage.categoryLink.count();
-    if (catCount === 0) {
-      console.warn('[inquiries] Category link not found via expected selectors');
-      return;
-    }
+    test.skip(catCount === 0, 'Category link not found via expected selectors');
     await expect(inquiriesPage.categoryLink, 'Category link should be visible').toBeVisible();
   });
 
@@ -140,11 +131,8 @@ test.describe('Inquiries Page @functional', () => {
   test('site logo link in header points back to homepage @functional', async ({ page, siteConfig }) => {
     const logoLink = page.locator('header a[href], #masthead a[href]').first();
     const href = await logoLink.getAttribute('href');
-    if (!href) {
-      console.warn('[inquiries] No anchor found in site header');
-      return;
-    }
-    const resolvedHref = new URL(href, siteConfig.url).toString().replace(/\/$/, '');
+    test.skip(!href, 'No anchor found in site header');
+    const resolvedHref = new URL(href!, siteConfig.url).toString().replace(/\/$/, '');
     const homeUrl = siteConfig.url.replace(/\/$/, '');
     expect(resolvedHref, 'Header logo/link should point to the site homepage').toBe(homeUrl);
   });
